@@ -1,0 +1,141 @@
+{
+  "_comment": "Gazetka Górka — PRZYKŁADOWA konfiguracja. Skopiuj do config.json (w userData lub obok aplikacji). Realny config.json jest w .gitignore. Wszystkie dane poniżej są przykładowe.",
+  "_commentSchedule": "TODO: zweryfikuj realne dzwonki Górki — edytuj w panelu admina. Klucze 1..7 = dzień tygodnia (1=poniedziałek ... 7=niedziela). Każda lekcja: {nr, start 'HH:MM', koniec 'HH:MM'}. Przerwy liczone z luk między lekcjami. L9 (14:55-15:40) domyślnie wyłączona.",
+  "school": {
+    "name": "Technikum — Górka, Rabka-Zdrój",
+    "shortName": "Gazetka Górka"
+  },
+  "location": {
+    "label": "Rabka-Zdrój",
+    "latitude": 49.61,
+    "longitude": 19.96,
+    "timezone": "Europe/Warsaw"
+  },
+  "longBreakMinutes": 15,
+  "schedule": {
+    "1": [
+      { "nr": 1, "start": "07:30", "koniec": "08:15" },
+      { "nr": 2, "start": "08:25", "koniec": "09:10" },
+      { "nr": 3, "start": "09:20", "koniec": "10:05" },
+      { "nr": 4, "start": "10:15", "koniec": "11:00" },
+      { "nr": 5, "start": "11:10", "koniec": "11:55" },
+      { "nr": 6, "start": "12:10", "koniec": "12:55" },
+      { "nr": 7, "start": "13:05", "koniec": "13:50" },
+      { "nr": 8, "start": "14:00", "koniec": "14:45" }
+    ],
+    "2": [
+      { "nr": 1, "start": "07:30", "koniec": "08:15" },
+      { "nr": 2, "start": "08:25", "koniec": "09:10" },
+      { "nr": 3, "start": "09:20", "koniec": "10:05" },
+      { "nr": 4, "start": "10:15", "koniec": "11:00" },
+      { "nr": 5, "start": "11:10", "koniec": "11:55" },
+      { "nr": 6, "start": "12:10", "koniec": "12:55" },
+      { "nr": 7, "start": "13:05", "koniec": "13:50" },
+      { "nr": 8, "start": "14:00", "koniec": "14:45" }
+    ],
+    "3": [
+      { "nr": 1, "start": "07:30", "koniec": "08:15" },
+      { "nr": 2, "start": "08:25", "koniec": "09:10" },
+      { "nr": 3, "start": "09:20", "koniec": "10:05" },
+      { "nr": 4, "start": "10:15", "koniec": "11:00" },
+      { "nr": 5, "start": "11:10", "koniec": "11:55" },
+      { "nr": 6, "start": "12:10", "koniec": "12:55" },
+      { "nr": 7, "start": "13:05", "koniec": "13:50" },
+      { "nr": 8, "start": "14:00", "koniec": "14:45" }
+    ],
+    "4": [
+      { "nr": 1, "start": "07:30", "koniec": "08:15" },
+      { "nr": 2, "start": "08:25", "koniec": "09:10" },
+      { "nr": 3, "start": "09:20", "koniec": "10:05" },
+      { "nr": 4, "start": "10:15", "koniec": "11:00" },
+      { "nr": 5, "start": "11:10", "koniec": "11:55" },
+      { "nr": 6, "start": "12:10", "koniec": "12:55" },
+      { "nr": 7, "start": "13:05", "koniec": "13:50" },
+      { "nr": 8, "start": "14:00", "koniec": "14:45" }
+    ],
+    "5": [
+      { "nr": 1, "start": "07:30", "koniec": "08:15" },
+      { "nr": 2, "start": "08:25", "koniec": "09:10" },
+      { "nr": 3, "start": "09:20", "koniec": "10:05" },
+      { "nr": 4, "start": "10:15", "koniec": "11:00" },
+      { "nr": 5, "start": "11:10", "koniec": "11:55" },
+      { "nr": 6, "start": "12:10", "koniec": "12:55" },
+      { "nr": 7, "start": "13:05", "koniec": "13:50" },
+      { "nr": 8, "start": "14:00", "koniec": "14:45" }
+    ]
+  },
+  "lessonNames": {
+    "_comment": "Opcjonalny plan przedmiotów. Klucz = dzień tygodnia, potem nr lekcji -> nazwa. Brak wpisu => pokazuje 'Lekcja N'.",
+    "1": { "1": "Matematyka", "2": "Język polski", "3": "Informatyka", "4": "Fizyka" }
+  },
+  "holidays": [
+    { "date": "2026-06-04", "name": "Boże Ciało" },
+    { "date": "2026-06-05", "name": "Dzień wolny od zajęć" }
+  ],
+  "daysOff": [],
+  "freePeriods": [
+    { "name": "Ferie zimowe", "from": "2027-01-18", "to": "2027-01-31" }
+  ],
+  "importantDates": {
+    "schoolYearEnd": "2026-06-26",
+    "summerBreakStart": "2026-06-27",
+    "winterBreakStart": "2027-01-18",
+    "maturaStart": "2027-05-04"
+  },
+  "luckyNumber": null,
+  "announcements": [
+    { "id": "a1", "text": "Witamy w nowej Gazetce Górki! Edytuj treści w panelu admina.", "urgent": false },
+    { "id": "a2", "text": "W piątek zbiórka na akcję charytatywną — sala 12.", "urgent": false }
+  ],
+  "photos": [],
+  "birthdays": [
+    { "name": "Ania", "date": "06-15" },
+    { "name": "Kuba", "date": "06-21" }
+  ],
+  "events": [
+    { "name": "Dzień Sportu", "date": "2026-06-12", "time": "09:00" },
+    { "name": "Zakończenie roku szkolnego", "date": "2026-06-26", "time": "09:00" }
+  ],
+  "qrCodes": [
+    { "label": "Strona szkoły", "url": "https://example.edu.pl", "enabled": true },
+    { "label": "GorkaGuesser", "url": "https://example.edu.pl/guesser", "enabled": true },
+    { "label": "GorkaRadio", "url": "https://example.edu.pl/radio", "enabled": true }
+  ],
+  "wordOfDay": {
+    "word": "Eudajmonia",
+    "definition": "Stan głębokiego szczęścia i spełnienia płynący z życia w zgodzie z cnotą (z gr. filozofii)."
+  },
+  "facts": [
+    "Rabka-Zdrój leży na wysokości ok. 500 m n.p.m. w Beskidzie Wyspowym i Gorcach.",
+    "Inter to krój pisma zaprojektowany specjalnie z myślą o czytelności na ekranach."
+  ],
+  "anagrams": [
+    { "answer": "RABKA", "hint": "Nasze uzdrowiskowe miasto" },
+    { "answer": "GORKA", "hint": "Tak mówimy na naszą szkołę" }
+  ],
+  "theme": {
+    "auto": true,
+    "mode": "dark",
+    "darkAfterHour": 19,
+    "lightAfterHour": 7
+  },
+  "story": {
+    "intervalSeconds": 11
+  },
+  "tiles": {
+    "photos": true,
+    "wordOfDay": true,
+    "fact": true,
+    "qr": true,
+    "birthdays": true,
+    "events": true,
+    "counters": true,
+    "anagram": true
+  },
+  "statusBar": {
+    "showWeather": true,
+    "showLuckyNumber": true,
+    "showDaysToYearEnd": true,
+    "showMarquee": true
+  }
+}
