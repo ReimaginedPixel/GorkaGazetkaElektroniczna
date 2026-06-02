@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  cursor: none; /* monitor bez myszki/klawiatury */
+  color-scheme: dark;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Liczby nie skaczą — wymóg dla timera. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+@layer components {
+  /* Semantyczne powierzchnie — reagują na tryb jasny (.light na <html>). */
+  .surface {
+    @apply bg-ink text-white;
+  }
+  .light .surface {
+    @apply bg-neutral-100 text-neutral-900;
+  }
+  .panel {
+    @apply rounded-3xl border border-white/10 bg-ink-card;
+  }
+  .light .panel {
+    @apply border-black/10 bg-white shadow-sm;
+  }
+  .muted {
+    @apply text-white/55;
+  }
+  .light .muted {
+    @apply text-neutral-500;
+  }
+}

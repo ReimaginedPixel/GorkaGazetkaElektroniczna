@@ -1,0 +1,44 @@
+# Zależności
+node_modules/
+
+# Build / dystrybucja
+dist/
+dist-electron/
+out/
+/release/
+/out/
+build/
+
+# Sekrety i dane realne — NIGDY w repo!
+.env
+.env.local
+*.local
+config.json
+/uploads/
+uploads/
+
+# Logi
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System
+.DS_Store
+Thumbs.db
+
+# Edytory
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cache narzędzi
+.vite/
+.cache/
+coverage/
