@@ -19,25 +19,34 @@ import type { AppConfig } from '../lib/types';
 import { createAdminServer, getLanUrls } from './server';
 
 // ── Ścieżki i .env ──────────────────────────────────────────────────────────
-const userData = app.getPath('userData');
-const configPath = path.join(userData, 'config.json');
-const uploadsDir = path.join(userData, 'uploads');
-const userEnvPath = path.join(userData, '.env');
-
-// Wczytaj .env: najpierw z katalogu roboczego (dev), potem z userData (kiosk).
-loadDotenv();
-loadDotenv({ path: userEnvPath });
-const envPath = existsSync(path.join(process.cwd(), '.env')) ? path.join(process.cwd(), '.env') : userEnvPath;
+// Paths are initialized in app.whenReady() to ensure app is ready before calling getPath().
+let configPath = '';
+let uploadsDir = '';
+let envPath = '';
 
 const ADMIN_PORT = Number(process.env.ADMIN_PORT) || 8137;
 const ADMIN_HOST = process.env.ADMIN_HOST || '0.0.0.0';
 
 let passwordHash = process.env.ADMIN_PASSWORD_HASH || '';
 let sessionSecret = process.env.SESSION_SECRET || '';
-if (!sessionSecret) {
-  // Ephemeryczny sekret — sesje przeżyją w trakcie działania, ale nie po restarcie.
-  sessionSecret = crypto.randomBytes(48).toString('hex');
-  console.warn('[main] Brak SESSION_SECRET w .env — używam tymczasowego (sesje wygasną po restarcie).');
+
+function initPaths(): void {
+  const userData = app.getPath('userData');
+  configPath = path.join(userData, 'config.json');
+  uploadsDir = path.join(userData, 'uploads');
+  const userEnvPath = path.join(userData, '.env');
+
+  loadDotenv();
+  loadDotenv({ path: userEnvPath });
+  envPath = existsSync(path.join(process.cwd(), '.env')) ? path.join(process.cwd(), '.env') : userEnvPath;
+
+  if (!sessionSecret) {
+    sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(48).toString('hex');
+    if (!process.env.SESSION_SECRET) {
+      console.warn('[main] Brak SESSION_SECRET w .env — używam tymczasowego (sesje wygasną po restarcie).');
+    }
+  }
+  passwordHash = process.env.ADMIN_PASSWORD_HASH || passwordHash;
 }
 
 let currentConfig: AppConfig = DEFAULT_CONFIG;
@@ -143,6 +152,7 @@ function setupSecurity(): void {
 }
 
 app.whenReady().then(() => {
+  initPaths();
   Menu.setApplicationMenu(null);
   setupSecurity();
 
