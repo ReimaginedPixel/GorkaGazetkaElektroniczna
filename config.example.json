@@ -1,6 +1,4 @@
 {
-  "_comment": "Gazetka Górka — PRZYKŁADOWA konfiguracja. Skopiuj do config.json (w userData lub obok aplikacji). Realny config.json jest w .gitignore. Wszystkie dane poniżej są przykładowe.",
-  "_commentSchedule": "TODO: zweryfikuj realne dzwonki Górki — edytuj w panelu admina. Klucze 1..7 = dzień tygodnia (1=poniedziałek ... 7=niedziela). Każda lekcja: {nr, start 'HH:MM', koniec 'HH:MM'}. Przerwy liczone z luk między lekcjami. L9 (14:55-15:40) domyślnie wyłączona.",
   "school": {
     "name": "Technikum — Górka, Rabka-Zdrój",
     "shortName": "Gazetka Górka"
@@ -65,7 +63,6 @@
     ]
   },
   "lessonNames": {
-    "_comment": "Opcjonalny plan przedmiotów. Klucz = dzień tygodnia, potem nr lekcji -> nazwa. Brak wpisu => pokazuje 'Lekcja N'.",
     "1": { "1": "Matematyka", "2": "Język polski", "3": "Informatyka", "4": "Fizyka" }
   },
   "holidays": [
@@ -84,7 +81,7 @@
   },
   "luckyNumber": null,
   "announcements": [
-    { "id": "a1", "text": "Witamy w nowej Gazetce Górki! Edytuj treści w panelu admina.", "urgent": false },
+    { "id": "a1", "text": "Zakończenie roku szkolnego — piątek 26 czerwca, godz. 9:00, aula.", "urgent": false },
     { "id": "a2", "text": "W piątek zbiórka na akcję charytatywną — sala 12.", "urgent": false }
   ],
   "photos": [],
@@ -97,17 +94,18 @@
     { "name": "Zakończenie roku szkolnego", "date": "2026-06-26", "time": "09:00" }
   ],
   "qrCodes": [
-    { "label": "Strona szkoły", "url": "https://example.edu.pl", "enabled": true },
-    { "label": "GorkaGuesser", "url": "https://example.edu.pl/guesser", "enabled": true },
-    { "label": "GorkaRadio", "url": "https://example.edu.pl/radio", "enabled": true }
+    { "label": "Strona szkoły", "url": "", "enabled": false },
+    { "label": "GorkaGuesser", "url": "", "enabled": false },
+    { "label": "GorkaRadio", "url": "", "enabled": false }
   ],
   "wordOfDay": {
     "word": "Eudajmonia",
     "definition": "Stan głębokiego szczęścia i spełnienia płynący z życia w zgodzie z cnotą (z gr. filozofii)."
   },
   "facts": [
-    "Rabka-Zdrój leży na wysokości ok. 500 m n.p.m. w Beskidzie Wyspowym i Gorcach.",
-    "Inter to krój pisma zaprojektowany specjalnie z myślą o czytelności na ekranach."
+    "Rabka-Zdrój leży na wysokości ok. 500 m n.p.m. w Beskidzie Wyspowym i jest znana jako Miasto Dzieci.",
+    "Pierwsze technikum w Polsce powstało w 1946 roku w Warszawie.",
+    "Ludzki mózg może przechować tyle informacji, co ok. 2,5 miliona gigabajtów."
   ],
   "anagrams": [
     { "answer": "RABKA", "hint": "Nasze uzdrowiskowe miasto" },
