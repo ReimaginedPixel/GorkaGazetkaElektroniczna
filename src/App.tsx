@@ -39,8 +39,30 @@ function renderView(status: ScheduleState['status'], props: ViewProps) {
 
 function Loading() {
   return (
-    <div className="surface flex h-full w-full items-center justify-center">
-      <div className="text-hero font-black opacity-80">Gazetka Górka…</div>
+    <div className="surface relative flex h-full w-full flex-col items-center justify-center gap-[3vh] overflow-hidden">
+      <svg
+        viewBox="0 0 1920 480"
+        className="pointer-events-none absolute bottom-0 w-full select-none"
+        preserveAspectRatio="xMidYMax meet"
+        aria-hidden
+      >
+        <path
+          d="M0,480 L0,270 L130,190 L260,235 L420,120 L550,185 L700,90 L840,155 L960,50
+             L1100,135 L1220,75 L1370,145 L1510,70 L1660,135 L1800,95 L1920,120 L1920,480 Z"
+          fill="white" fillOpacity="0.028"
+        />
+        <path
+          d="M0,480 L0,315 L180,272 L360,295 L540,244 L720,274 L900,222 L1080,256
+             L1260,212 L1440,248 L1620,216 L1920,228 L1920,480 Z"
+          fill="white" fillOpacity="0.038"
+        />
+        <path
+          d="M0,480 L0,392 L320,364 L640,378 L960,350 L1280,372 L1600,355 L1920,370 L1920,480 Z"
+          fill="white" fillOpacity="0.052"
+        />
+      </svg>
+      <div className="text-hero font-black">Gazetka Górka</div>
+      <div className="muted text-3xl animate-pulse">Ładowanie…</div>
     </div>
   );
 }

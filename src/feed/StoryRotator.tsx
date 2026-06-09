@@ -65,9 +65,17 @@ function buildSlides(config: AppConfig, now: Date, adminBase: string): Slide[] {
     slides.push({
       key: 'placeholder',
       node: (
-        <TileFrame label={config.school.shortName}>
-          <div className="text-hero font-bold">{config.school.name}</div>
-        </TileFrame>
+        <div className="flex h-full w-full flex-col items-center justify-center gap-[2vh] px-[6vw] text-center">
+          <div className="muted text-3xl font-semibold uppercase tracking-[0.25em]">
+            {config.school.shortName}
+          </div>
+          <div className="text-timer-sm font-black leading-none opacity-90">
+            {config.school.name}
+          </div>
+          <div className="muted mt-[2vh] text-3xl">
+            Treści możesz dodać w panelu administratora.
+          </div>
+        </div>
       ),
     });
   }
