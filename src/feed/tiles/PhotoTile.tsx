@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { TileFrame } from '../TileFrame';
 
-export function PhotoTile({ src, caption }: { src: string; caption?: string }) {
+/** Pełnoekranowe zdjęcie z efektem Ken Burns, podpisem i atrybucją autora. */
+export function PhotoTile({ src, caption, credit }: { src: string; caption?: string; credit?: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
     return (
@@ -11,17 +12,25 @@ export function PhotoTile({ src, caption }: { src: string; caption?: string }) {
     );
   }
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full overflow-hidden">
       <img
         src={src}
         alt={caption ?? 'Zdjęcie ze szkoły'}
         onError={() => setFailed(true)}
-        className="h-full w-full object-cover"
+        className="h-full w-full animate-kenburns object-cover"
       />
-      {caption && (
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-[4vh] text-center">
-          <span className="text-hero font-bold text-white">{caption}</span>
-        </div>
+      {(caption || credit) && (
+        <>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30vh] bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-[3.5vh] text-center">
+            {caption && (
+              <div className="photo-shadow text-hero font-black text-white">{caption}</div>
+            )}
+            {credit && (
+              <div className="photo-shadow mt-[1vh] text-xl font-medium text-white/75">{credit}</div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

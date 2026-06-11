@@ -116,6 +116,23 @@ Domyślnie wpisywany **ręcznie** w panelu admina. Opcjonalny moduł scrapera
 Librus (`lib/librusScraper.ts`) jest **domyślnie wyłączony** — to nieoficjalne
 API, na własne ryzyko; dane logowania wyłącznie z `.env`, nigdy w repo.
 
+## Wbudowane zdjęcia okolicy (`public/photos`)
+
+Aplikacja ma wbudowany zestaw zdjęć Rabki-Zdroju i Gorców (pokazywane w feedzie
+obok zdjęć wgranych w panelu admina; lista w `src/feed/gorkaPhotos.ts`).
+Wszystkie pochodzą z **Wikimedia Commons** na wolnych licencjach **CC BY /
+CC BY-SA** — atrybucja autora jest wyświetlana na kaflu (wymóg licencji),
+a pełne źródła są w `public/photos/CREDITS.json`:
+
+| Plik | Autor | Licencja |
+|------|-------|----------|
+| `panorama-rabki.jpg` | Mach240390 | CC BY-SA 3.0 |
+| `park-zdrojowy.jpg` | Mach240390 | CC BY 4.0 |
+| `fontanna-park.jpg` | Zalasem1 | CC BY 4.0 |
+| `dworzec-rabka.jpg` | Mach240390 | CC BY 4.0 |
+| `hala-turbacz.jpg` | Jakub Hałun | CC BY 4.0 |
+| `turbacz-zima.jpg` | Jakub Hałun | CC BY-SA 4.0 |
+
 ## Pogoda
 
 Open-Meteo (bez klucza), domyślnie Rabka-Zdrój (lat/lon w configu). Odświeżanie

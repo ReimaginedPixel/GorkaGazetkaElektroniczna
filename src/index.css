@@ -26,6 +26,13 @@ body {
   font-feature-settings: 'tnum';
 }
 
+/* Tekst na zdjęciach — czytelny niezależnie od tła. */
+.photo-shadow {
+  text-shadow:
+    0 2px 18px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(0, 0, 0, 0.5);
+}
+
 @layer components {
   /* Semantyczne powierzchnie — reagują na tryb jasny (.light na <html>). */
   .surface {
@@ -41,9 +48,51 @@ body {
     @apply border-black/10 bg-white shadow-sm;
   }
   .muted {
-    @apply text-white/55;
+    @apply text-white/70;
   }
   .light .muted {
-    @apply text-neutral-500;
+    @apply text-neutral-600;
+  }
+  /* Wyróżnienie wewnątrz przygaszonego tekstu — pełny kontrast w obu trybach. */
+  .strong {
+    @apply font-semibold text-white;
+  }
+  .light .strong {
+    @apply text-neutral-900;
+  }
+  /* Półprzezroczysta karta "szkło" — wyróżnia kluczowe informacje. */
+  .glass {
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.06] backdrop-blur-md;
+  }
+  .light .glass {
+    @apply border-black/10 bg-white/75 shadow-sm;
+  }
+  /* Rama feedu (story) — wyraźnie oddziela feed od nagłówka widoku. */
+  .feed-card {
+    @apply overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)];
+  }
+  .light .feed-card {
+    @apply border-black/10 bg-white/70 shadow-lg;
+  }
+  /* Etykieta-pigułka (nagłówki kafli, sekcji). */
+  .label-pill {
+    @apply rounded-full border border-white/15 bg-white/[0.07] px-6 py-2 text-2xl font-bold uppercase tracking-[0.25em] text-white/80;
+  }
+  .light .label-pill {
+    @apply border-black/10 bg-black/5 text-neutral-600;
+  }
+  /* Dolny pasek statusu. */
+  .statusbar {
+    @apply border-t border-white/10 bg-black/35 backdrop-blur-md;
+  }
+  .light .statusbar {
+    @apply border-black/10 bg-white/80;
+  }
+  /* Pionowy separator statystyk w pasku. */
+  .vdiv {
+    @apply w-px self-stretch bg-white/15;
+  }
+  .light .vdiv {
+    @apply bg-black/15;
   }
 }

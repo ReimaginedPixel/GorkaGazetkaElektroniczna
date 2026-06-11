@@ -87,6 +87,7 @@
     { "id": "a1", "text": "Witamy w nowej Gazetce Górki! Edytuj treści w panelu admina.", "urgent": false },
     { "id": "a2", "text": "W piątek zbiórka na akcję charytatywną — sala 12.", "urgent": false }
   ],
+  "_commentPhotos": "Wbudowane zdjęcia Rabki i Gorców (src/feed/gorkaPhotos.ts) pokazują się zawsze, gdy kafel 'photos' jest włączony. Poniższa lista to DODATKOWE zdjęcia wgrane w panelu admina.",
   "photos": [],
   "birthdays": [
     { "name": "Ania", "date": "06-15" },

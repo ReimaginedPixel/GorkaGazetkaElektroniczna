@@ -50,11 +50,23 @@ module.exports = {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
+        // Ken Burns — powolny zoom/pan zdjęć w feedzie.
+        kenburns: {
+          '0%': { transform: 'scale(1.02) translate(0, 0)' },
+          '100%': { transform: 'scale(1.15) translate(-1.5%, -1%)' },
+        },
+        // Wolno dryfująca poświata tła w kolorze statusu.
+        aurora: {
+          '0%, 100%': { transform: 'translate(-4%, -2%) scale(1)' },
+          '50%': { transform: 'translate(5%, 4%) scale(1.15)' },
+        },
       },
       animation: {
         'pulse-alarm': 'pulse-alarm 1.1s ease-in-out infinite',
         marquee: 'marquee var(--marquee-duration, 40s) linear infinite',
         'fade-in': 'fade-in 0.6s ease-out both',
+        kenburns: 'kenburns 24s ease-in-out both',
+        aurora: 'aurora 18s ease-in-out infinite',
       },
     },
   },
