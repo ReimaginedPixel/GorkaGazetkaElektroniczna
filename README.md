@@ -102,9 +102,12 @@ regułą. **Źródłem prawdy jest edytowalna lista dzwonków w panelu admina**
 - nazwy przedmiotów to osobny, opcjonalny plan (`lessonNames`); bez nich
   pokazywane jest „Lekcja N”.
 
-Domyślny plan placeholder Górki (poniedziałek–piątek; L9 14:55–15:40 domyślnie
-wyłączona) jest w `config.example.json` i w `lib/schedule.ts`
-(`// TODO: zweryfikuj realne dzwonki Górki`).
+Domyślny plan dzwonków (poniedziałek–piątek; L9 14:55–15:40 domyślnie
+wyłączona) jest w `config.example.json` i w `lib/schedule.ts` — realny plan
+szkoły wpisuje się w panelu admina.
+
+Okresy wolne (`freePeriods`, np. ferie czy przerwa świąteczna) ustawione
+w panelu admina automatycznie przełączają ekran w tryb dnia wolnego.
 
 Obsługiwane stany (z testami jednostkowymi na każdy + edge cases): lekcja trwa,
 przerwa zwykła, długa przerwa, przed 1. lekcją, po lekcjach, weekend / święto /
@@ -112,9 +115,8 @@ dzień wolny. Stan liczony jest z czasu lokalnego — nie wymaga odświeżania.
 
 ## Szczęśliwy numerek
 
-Domyślnie wpisywany **ręcznie** w panelu admina. Opcjonalny moduł scrapera
-Librus (`lib/librusScraper.ts`) jest **domyślnie wyłączony** — to nieoficjalne
-API, na własne ryzyko; dane logowania wyłącznie z `.env`, nigdy w repo.
+Wpisywany **ręcznie** w panelu admina (Librus nie udostępnia oficjalnego,
+publicznego API — automatyczne pobieranie celowo nie jest częścią aplikacji).
 
 ## Wbudowane zdjęcia okolicy (`public/photos`)
 
@@ -179,7 +181,7 @@ npm run typecheck        # TypeScript (node + web)
 /electron      main.ts (kiosk) · preload.ts · server.ts (Express admin) · adminPage.ts
 /src           App.tsx · /views (Lesson/Break/LongBreak/Welcome/AfterSchool/DayOff)
                /feed (StoryRotator + kafle) · /components · /hooks · /util
-/lib           schedule.ts (+testy) · weather.ts · config.ts · format.ts · librusScraper.ts · types.ts
+/lib           schedule.ts (+testy) · weather.ts · config.ts · format.ts · types.ts
 /scripts       hash-password.mjs
 config.example.json · .env.example · .gitignore
 ```

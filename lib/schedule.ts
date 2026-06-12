@@ -7,10 +7,10 @@
 // liczona z luki między koniec[i] a start[i+1] — nic nie jest hardkodowane.
 // ─────────────────────────────────────────────────────────────────────────
 
-import type { Holiday, Lesson, LessonNamesMap, ScheduleMap } from './types';
+import type { FreePeriod, Holiday, Lesson, LessonNamesMap, ScheduleMap } from './types';
 
-// TODO: zweryfikuj realne dzwonki Górki — wpisać w panelu admina.
-// Plan placeholder (poniedziałek–piątek). Długa przerwa = po L5 (11:55–12:10).
+// Domyślny plan dzwonków (poniedziałek–piątek) — realny plan szkoły edytuje
+// się w panelu admina. Długa przerwa = po L5 (11:55–12:10).
 // L9 (14:55–15:40) bywa dodawana — domyślnie wyłączona.
 const DEFAULT_DAY: Lesson[] = [
   { nr: 1, start: '07:30', koniec: '08:15' },
@@ -23,7 +23,7 @@ const DEFAULT_DAY: Lesson[] = [
   { nr: 8, start: '14:00', koniec: '14:45' },
 ];
 
-/** Domyślny plan placeholder dla dni roboczych (1=pon ... 5=pt). */
+/** Domyślny plan dzwonków dla dni roboczych (1=pon ... 5=pt). */
 export const DEFAULT_SCHEDULE: ScheduleMap = {
   '1': DEFAULT_DAY,
   '2': DEFAULT_DAY,
@@ -121,6 +121,12 @@ export function findHoliday(date: Date, holidays: Holiday[]): Holiday | null {
   return holidays.find((h) => h.date === iso) ?? null;
 }
 
+/** Czy data wpada w okres wolny (ferie, przerwa świąteczna): from <= data <= to. */
+export function findFreePeriod(date: Date, periods: FreePeriod[]): FreePeriod | null {
+  const iso = toISODate(date);
+  return periods.find((p) => p.from <= iso && iso <= p.to) ?? null;
+}
+
 /** Lekcje dla danego dnia, posortowane rosnąco po starcie. Tylko poprawne wpisy. */
 export function getLessonsForDate(date: Date, schedule: ScheduleMap): Lesson[] {
   const key = weekdayKey(date);
@@ -158,11 +164,17 @@ function baseState(status: LessonStatus, nowMs: number, label: string): Schedule
 /**
  * Główna funkcja: wyznacza bieżący stan dnia szkolnego.
  *
- * @param now       bieżący czas (czas lokalny kiosku — zakładamy Europe/Warsaw)
- * @param input     plan dzwonków + długość progu długiej przerwy + nazwy lekcji
- * @param holidays  lista świąt / dni wolnych (data "YYYY-MM-DD")
+ * @param now          bieżący czas (czas lokalny kiosku — zakładamy Europe/Warsaw)
+ * @param input        plan dzwonków + długość progu długiej przerwy + nazwy lekcji
+ * @param holidays     lista świąt / dni wolnych (data "YYYY-MM-DD")
+ * @param freePeriods  okresy wolne (ferie, przerwy świąteczne) "from".."to"
  */
-export function getCurrentState(now: Date, input: ScheduleInput, holidays: Holiday[]): ScheduleState {
+export function getCurrentState(
+  now: Date,
+  input: ScheduleInput,
+  holidays: Holiday[],
+  freePeriods: FreePeriod[] = [],
+): ScheduleState {
   const nowMs = now.getTime();
   const key = weekdayKey(now);
   const isWeekend = key === '6' || key === '7';
@@ -172,6 +184,14 @@ export function getCurrentState(now: Date, input: ScheduleInput, holidays: Holid
   if (holiday) {
     const state = baseState('dayOff', nowMs, holiday.name);
     state.dayOffReason = holiday.name;
+    return state;
+  }
+
+  // 1b) Okres wolny (ferie / przerwa świąteczna) obejmujący dzisiejszą datę.
+  const freePeriod = findFreePeriod(now, freePeriods);
+  if (freePeriod) {
+    const state = baseState('dayOff', nowMs, freePeriod.name);
+    state.dayOffReason = freePeriod.name;
     return state;
   }
 

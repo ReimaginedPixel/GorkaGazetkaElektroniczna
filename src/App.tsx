@@ -62,6 +62,7 @@ export default function App() {
         lessonNames: config.lessonNames,
       },
       [...config.holidays, ...config.daysOff],
+      config.freePeriods,
     );
   }, [config, now]);
 
