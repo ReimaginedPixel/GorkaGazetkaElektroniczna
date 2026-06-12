@@ -1,4 +1,4 @@
-import { formatCountdown, minutesCeil, plMinutes } from '@lib/format';
+import { CountdownCard } from '../components/CountdownCard';
 import { Screen } from '../components/Screen';
 import { StoryRotator } from '../feed/StoryRotator';
 import type { ViewProps } from './types';
@@ -10,26 +10,26 @@ import type { ViewProps } from './types';
 export function LongBreakView({ state, theme, config, now, adminBase }: ViewProps) {
   const next = state.next;
   const ms = state.msUntilNextStart ?? 0;
-  const nextLabel = next ? (next.name ?? `lekcji ${next.nr}`) : 'następnej lekcji';
+  const nextLabel = next ? (next.name ?? `Lekcja ${next.nr}`) : 'następna lekcja';
 
   return (
-    <Screen theme={theme} chip="Długa przerwa" center={false}>
-      <div className="flex items-end justify-between gap-8">
+    <Screen theme={theme} chip="Długa przerwa" brand={config.school.shortName} center={false}>
+      <div className="flex items-center justify-between gap-8">
         <div>
-          <div className="text-hero font-bold">Czas na dłuższą przerwę 🎒</div>
+          <div className="text-hero font-black tracking-tight">Czas na dłuższą przerwę 🎒</div>
           <div className="muted mt-2 text-4xl">
-            Do {nextLabel}: pozostało {plMinutes(minutesCeil(ms))}
+            Następnie: <span className="strong">{nextLabel}</span>
+            {next && (
+              <>
+                {' '}· start <span className="tnum strong">{next.start}</span>
+              </>
+            )}
           </div>
         </div>
-        <div className="text-right">
-          <div className="tnum text-timer-sm font-black leading-none" style={{ color: theme.accent }}>
-            {formatCountdown(ms)}
-          </div>
-          <div className="muted text-2xl uppercase tracking-wide">do dzwonka</div>
-        </div>
+        <CountdownCard ms={ms} label="do dzwonka" theme={theme} />
       </div>
 
-      <div className="relative mt-[2vh] flex-1">
+      <div className="feed-card relative mt-[2.5vh] flex-1">
         {/* Wolniejsza rotacja niż w zwykłej przerwie. */}
         <StoryRotator
           config={config}

@@ -3,6 +3,7 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import type { AppConfig } from '@lib/types';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { resolveAsset } from './assets';
+import { GORKA_PHOTOS } from './gorkaPhotos';
 import { TileFrame } from './TileFrame';
 import { PhotoTile } from './tiles/PhotoTile';
 import { WordOfDayTile } from './tiles/WordOfDayTile';
@@ -28,37 +29,54 @@ interface Props {
 
 function buildSlides(config: AppConfig, now: Date, adminBase: string): Slide[] {
   const t = config.tiles;
-  const slides: Slide[] = [];
+  const photoSlides: Slide[] = [];
+  const infoSlides: Slide[] = [];
 
   if (t.photos) {
+    // Wbudowane zdjęcia okolic Górki + zdjęcia wgrane w panelu admina.
+    GORKA_PHOTOS.forEach((p, i) =>
+      photoSlides.push({
+        key: `gorka-${i}`,
+        node: <PhotoTile src={p.src} caption={p.caption} credit={p.credit} />,
+      }),
+    );
     config.photos.forEach((p, i) =>
-      slides.push({ key: `photo-${i}`, node: <PhotoTile src={resolveAsset(p, adminBase)} /> }),
+      photoSlides.push({ key: `photo-${i}`, node: <PhotoTile src={resolveAsset(p, adminBase)} /> }),
     );
   }
   if (t.wordOfDay && config.wordOfDay) {
-    slides.push({ key: 'wod', node: <WordOfDayTile word={config.wordOfDay} /> });
+    infoSlides.push({ key: 'wod', node: <WordOfDayTile word={config.wordOfDay} /> });
   }
   if (t.fact) {
-    config.facts.forEach((f, i) => slides.push({ key: `fact-${i}`, node: <FactTile fact={f} /> }));
+    config.facts.forEach((f, i) => infoSlides.push({ key: `fact-${i}`, node: <FactTile fact={f} /> }));
   }
   if (t.qr) {
     config.qrCodes
       .filter((q) => q.enabled !== false && q.url)
-      .forEach((q, i) => slides.push({ key: `qr-${i}`, node: <QrTile label={q.label} url={q.url} /> }));
+      .forEach((q, i) => infoSlides.push({ key: `qr-${i}`, node: <QrTile label={q.label} url={q.url} /> }));
   }
   if (t.birthdays && config.birthdays.length > 0) {
-    slides.push({ key: 'bday', node: <BirthdaysTile birthdays={config.birthdays} now={now} /> });
+    infoSlides.push({ key: 'bday', node: <BirthdaysTile birthdays={config.birthdays} now={now} /> });
   }
   if (t.events && config.events.length > 0) {
-    slides.push({ key: 'events', node: <EventsTile events={config.events} now={now} /> });
+    infoSlides.push({ key: 'events', node: <EventsTile events={config.events} now={now} /> });
   }
   if (t.counters && Object.values(config.importantDates).some(Boolean)) {
-    slides.push({ key: 'counters', node: <CountersTile dates={config.importantDates} now={now} /> });
+    infoSlides.push({ key: 'counters', node: <CountersTile dates={config.importantDates} now={now} /> });
   }
   if (t.anagram) {
     config.anagrams.forEach((a, i) =>
-      slides.push({ key: `ana-${i}`, node: <AnagramTile answer={a.answer} hint={a.hint} /> }),
+      infoSlides.push({ key: `ana-${i}`, node: <AnagramTile answer={a.answer} hint={a.hint} /> }),
     );
+  }
+
+  // Przeplot zdjęć z kaflami informacyjnymi — rotacja jest bardziej różnorodna
+  // niż długi blok samych zdjęć albo samego tekstu.
+  const slides: Slide[] = [];
+  const rounds = Math.max(photoSlides.length, infoSlides.length);
+  for (let i = 0; i < rounds; i++) {
+    if (photoSlides[i]) slides.push(photoSlides[i]);
+    if (infoSlides[i]) slides.push(infoSlides[i]);
   }
 
   if (slides.length === 0) {
@@ -101,10 +119,16 @@ export function StoryRotator({ config, now, adminBase, intervalSeconds }: Props)
 
   return (
     <div className="relative h-full w-full overflow-hidden">
+      {/* Delikatny scrim u góry — segmenty postępu czytelne także na zdjęciach. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[9vh] bg-gradient-to-b from-black/55 to-transparent" />
+
       {/* Pasek postępu (segmenty jak w InstaStory) */}
-      <div className="absolute inset-x-[3vw] top-[2.2vh] z-10 flex gap-2">
+      <div className="absolute inset-x-[2.5vw] top-[2.2vh] z-10 flex gap-2">
         {slides.map((s, i) => (
-          <div key={s.key} className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/20">
+          <div
+            key={s.key}
+            className="relative h-2 flex-1 overflow-hidden rounded-full bg-white/25 shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
+          >
             {i < index && <div className="absolute inset-0 bg-white" />}
             {i === index && (
               <motion.div
@@ -126,7 +150,7 @@ export function StoryRotator({ config, now, adminBase, intervalSeconds }: Props)
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.5 }}
-          className="absolute inset-0 pt-[5vh]"
+          className="absolute inset-0"
         >
           <ErrorBoundary
             label={current.key}

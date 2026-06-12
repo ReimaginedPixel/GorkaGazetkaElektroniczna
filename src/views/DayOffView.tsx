@@ -15,15 +15,19 @@ export function DayOffView({ state, theme, config, now, adminBase }: ViewProps) 
   const { title, subtitle } = headline(state.dayOffReason);
 
   return (
-    <Screen theme={theme} chip="Dzień wolny" center={false}>
+    <Screen theme={theme} chip="Dzień wolny" brand={config.school.shortName} center={false}>
       <div className="text-center">
-        <div className="text-timer-sm font-black leading-none" style={{ color: theme.accent }}>
+        <div
+          className="text-mega font-black leading-none tracking-tight"
+          style={{ color: theme.accent, textShadow: `0 0 80px ${theme.glow}` }}
+        >
           {title}
         </div>
-        <div className="muted mt-[2vh] text-4xl">{subtitle}</div>
-        <div className="muted mt-1 text-2xl capitalize">{formatPlDateLong(now)}</div>
+        <div className="muted mt-[1.5vh] text-4xl">
+          {subtitle} · <span className="capitalize">{formatPlDateLong(now)}</span>
+        </div>
       </div>
-      <div className="relative mt-[3vh] flex-1">
+      <div className="feed-card relative mt-[2.5vh] flex-1">
         <StoryRotator config={config} now={now} adminBase={adminBase} />
       </div>
     </Screen>
