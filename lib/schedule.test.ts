@@ -8,7 +8,7 @@ import {
   weekdayKey,
   type ScheduleInput,
 } from './schedule';
-import type { Holiday, ScheduleMap } from './types';
+import type { FreePeriod, Holiday, ScheduleMap } from './types';
 
 // ── Dane testowe ────────────────────────────────────────────────────────────
 // 2026-06-01 to PONIEDZIAŁEK. Plan: L1 08:00–08:45, przerwa 10 min,
@@ -164,6 +164,20 @@ describe('Stan 6: WEEKEND / ŚWIĘTO / DZIEŃ WOLNY', () => {
     expect(s.status).toBe('dayOff');
     expect(s.dayOffReason).toBe('Boże Ciało');
     expect(s.label).toBe('Boże Ciało');
+  });
+
+  it('okres wolny (ferie) obejmujący dzisiejszą datę -> dayOff', () => {
+    const periods: FreePeriod[] = [{ name: 'Ferie zimowe', from: '2026-05-25', to: '2026-06-05' }];
+    const s = getCurrentState(at(2026, 6, 1, 9, 0), INPUT, NO_HOLIDAYS, periods);
+    expect(s.status).toBe('dayOff');
+    expect(s.dayOffReason).toBe('Ferie zimowe');
+    expect(s.label).toBe('Ferie zimowe');
+  });
+
+  it('dzień po końcu okresu wolnego -> normalne lekcje', () => {
+    const periods: FreePeriod[] = [{ name: 'Ferie zimowe', from: '2026-05-25', to: '2026-05-31' }];
+    const s = getCurrentState(at(2026, 6, 1, 9, 0), INPUT, NO_HOLIDAYS, periods);
+    expect(s.status).toBe('lesson');
   });
 });
 

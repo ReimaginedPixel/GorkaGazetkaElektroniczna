@@ -1,6 +1,6 @@
 {
   "_comment": "Gazetka Górka — PRZYKŁADOWA konfiguracja. Skopiuj do config.json (w userData lub obok aplikacji). Realny config.json jest w .gitignore. Wszystkie dane poniżej są przykładowe.",
-  "_commentSchedule": "TODO: zweryfikuj realne dzwonki Górki — edytuj w panelu admina. Klucze 1..7 = dzień tygodnia (1=poniedziałek ... 7=niedziela). Każda lekcja: {nr, start 'HH:MM', koniec 'HH:MM'}. Przerwy liczone z luk między lekcjami. L9 (14:55-15:40) domyślnie wyłączona.",
+  "_commentSchedule": "Plan dzwonków edytuje się w panelu admina. Klucze 1..7 = dzień tygodnia (1=poniedziałek ... 7=niedziela). Każda lekcja: {nr, start 'HH:MM', koniec 'HH:MM'}. Przerwy liczone z luk między lekcjami. L9 (14:55-15:40) domyślnie wyłączona.",
   "school": {
     "name": "Technikum — Górka, Rabka-Zdrój",
     "shortName": "Gazetka Górka"
@@ -65,8 +65,7 @@
     ]
   },
   "lessonNames": {
-    "_comment": "Opcjonalny plan przedmiotów. Klucz = dzień tygodnia, potem nr lekcji -> nazwa. Brak wpisu => pokazuje 'Lekcja N'.",
-    "1": { "1": "Matematyka", "2": "Język polski", "3": "Informatyka", "4": "Fizyka" }
+    "_comment": "Opcjonalny plan przedmiotów. Klucz = dzień tygodnia, potem nr lekcji -> nazwa. Brak wpisu => pokazuje 'Lekcja N'."
   },
   "holidays": [
     { "date": "2026-06-04", "name": "Boże Ciało" },
@@ -84,24 +83,15 @@
   },
   "luckyNumber": null,
   "announcements": [
-    { "id": "a1", "text": "Witamy w nowej Gazetce Górki! Edytuj treści w panelu admina.", "urgent": false },
-    { "id": "a2", "text": "W piątek zbiórka na akcję charytatywną — sala 12.", "urgent": false }
+    { "id": "a1", "text": "Witamy w Gazetce Górki! Treści edytuje się w panelu admina.", "urgent": false }
   ],
   "_commentPhotos": "Wbudowane zdjęcia Rabki i Gorców (src/feed/gorkaPhotos.ts) pokazują się zawsze, gdy kafel 'photos' jest włączony. Poniższa lista to DODATKOWE zdjęcia wgrane w panelu admina.",
   "photos": [],
-  "birthdays": [
-    { "name": "Ania", "date": "06-15" },
-    { "name": "Kuba", "date": "06-21" }
-  ],
+  "birthdays": [],
   "events": [
-    { "name": "Dzień Sportu", "date": "2026-06-12", "time": "09:00" },
     { "name": "Zakończenie roku szkolnego", "date": "2026-06-26", "time": "09:00" }
   ],
-  "qrCodes": [
-    { "label": "Strona szkoły", "url": "https://example.edu.pl", "enabled": true },
-    { "label": "GorkaGuesser", "url": "https://example.edu.pl/guesser", "enabled": true },
-    { "label": "GorkaRadio", "url": "https://example.edu.pl/radio", "enabled": true }
-  ],
+  "qrCodes": [],
   "wordOfDay": {
     "word": "Eudajmonia",
     "definition": "Stan głębokiego szczęścia i spełnienia płynący z życia w zgodzie z cnotą (z gr. filozofii)."
