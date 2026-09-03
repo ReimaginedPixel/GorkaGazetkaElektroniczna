@@ -1,5 +1,6 @@
 import type { Birthday } from '@lib/types';
 import { daysBetween, plDays } from '@lib/format';
+import { GGChip, GGIcon, GGSticker, GGSurface, type GGTilt } from '../../gg';
 import { TileFrame } from '../TileFrame';
 
 interface Upcoming {
@@ -7,6 +8,8 @@ interface Upcoming {
   date: Date;
   days: number;
 }
+
+const TILTS: GGTilt[] = ['l', 'r', 'l2', 'r2'];
 
 /** Najbliższe urodziny (MM-DD). Dzisiejsze wyróżnione. */
 export function BirthdaysTile({ birthdays, now }: { birthdays: Birthday[]; now: Date }) {
@@ -23,22 +26,34 @@ export function BirthdaysTile({ birthdays, now }: { birthdays: Birthday[]; now: 
     })
     .filter((x): x is Upcoming => x !== null)
     .sort((a, b) => a.days - b.days)
-    .slice(0, 4);
+    .slice(0, 3);
+
+  const anyToday = upcoming.some((u) => u.days === 0);
 
   return (
-    <TileFrame label="Urodziny z klasy">
-      <div className="flex flex-col items-center gap-[2.5vh]">
-        {upcoming.length === 0 && <div className="muted text-4xl">Brak nadchodzących urodzin</div>}
-        {upcoming.map((u) => (
-          <div key={`${u.name}-${u.date.getTime()}`} className="flex items-baseline gap-6">
-            <span className="text-6xl font-bold">{u.name}</span>
-            <span
-              className="text-4xl"
-              style={{ color: u.days === 0 ? '#F59E0B' : undefined }}
-            >
-              {u.days === 0 ? '🎉 dziś!' : `za ${plDays(u.days)}`}
-            </span>
-          </div>
+    <TileFrame label="Urodziny z klasy" icon={['fun', 'cake']} tone="pink">
+      {anyToday && (
+        <GGSticker art="blobCelebrate" rotate={-8} float={5} className="absolute right-[5vw] top-[10vh] w-[17vh]" />
+      )}
+      <div className="flex flex-col items-center gap-[1.8vh]">
+        {upcoming.length === 0 && <div className="muted font-ui text-big">Brak nadchodzących urodzin</div>}
+        {upcoming.map((u, i) => (
+          <GGSurface
+            key={`${u.name}-${u.date.getTime()}`}
+            variant={u.days === 0 ? 'default' : 'flat'}
+            tilt={TILTS[i % TILTS.length]}
+            className="flex items-center gap-[1.4vw] px-[2.2vw] py-[1vh]"
+          >
+            <GGIcon group="fun" name={u.days === 0 ? 'gift' : 'cake'} className="w-[4.8vh]" />
+            <span className="font-display text-[4.4vh] uppercase text-gg-ink">{u.name}</span>
+            {u.days === 0 ? (
+              <GGChip tone="yellow" tilt className="text-[2.2vh]">
+                Dziś!
+              </GGChip>
+            ) : (
+              <span className="muted font-ui text-big">za {plDays(u.days)}</span>
+            )}
+          </GGSurface>
         ))}
       </div>
     </TileFrame>

@@ -13,7 +13,7 @@ interface State {
 }
 
 /**
- * Global error boundary — błąd jednego kafla/widoku nie wywala całego ekranu.
+ * Global error boundary - błąd jednego kafla/widoku nie wywala całego ekranu.
  * Otaczamy nim kafle feedu oraz główny widok.
  */
 export class ErrorBoundary extends Component<Props, State> {

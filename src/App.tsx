@@ -4,6 +4,7 @@ import { getCurrentState, type ScheduleState } from '@lib/schedule';
 import { AlarmOverlay } from './components/AlarmOverlay';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { StatusBar } from './components/StatusBar';
+import { GGHeading, GGMeta, GGSticker } from './gg';
 import { useAdminBase } from './hooks/useAdminBase';
 import { useConfig } from './hooks/useConfig';
 import { useNow } from './hooks/useNow';
@@ -39,8 +40,10 @@ function renderView(status: ScheduleState['status'], props: ViewProps) {
 
 function Loading() {
   return (
-    <div className="surface flex h-full w-full items-center justify-center">
-      <div className="text-hero font-black opacity-80">Gazetka Górka…</div>
+    <div className="flex h-full w-full flex-col items-center justify-center gap-[3vh]">
+      <GGSticker art="blobThinking" rotate={-6} float={4} className="w-[28vh]" />
+      <GGHeading className="text-hero">Gazetka Górka</GGHeading>
+      <GGMeta className="animate-ggblink text-[2vh]">wczytywanie…</GGMeta>
     </div>
   );
 }
@@ -73,13 +76,14 @@ export default function App() {
   const viewProps: ViewProps = { state, config, now, adminBase, theme };
 
   return (
-    <div className="surface relative flex h-full w-full flex-col overflow-hidden">
+    <div className="relative flex h-full w-full flex-col overflow-hidden text-gg-ink">
       <main className="relative flex-1">
         <ErrorBoundary
           label="view"
           fallback={
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="muted text-4xl">Wystąpił błąd widoku</div>
+            <div className="flex h-full w-full flex-col items-center justify-center gap-[2vh]">
+              <GGSticker art="blobNervous" rotate={6} className="w-[22vh]" />
+              <div className="muted font-ui text-big">Wystąpił błąd widoku</div>
             </div>
           }
         >

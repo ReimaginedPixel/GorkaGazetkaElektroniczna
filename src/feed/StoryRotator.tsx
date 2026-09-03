@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import type { AppConfig } from '@lib/types';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { GGHeading } from '../gg';
 import { resolveAsset } from './assets';
 import { GORKA_PHOTOS } from './gorkaPhotos';
 import { TileFrame } from './TileFrame';
@@ -70,7 +71,7 @@ function buildSlides(config: AppConfig, now: Date, adminBase: string): Slide[] {
     );
   }
 
-  // Przeplot zdjęć z kaflami informacyjnymi — rotacja jest bardziej różnorodna
+  // Przeplot zdjęć z kaflami informacyjnymi - rotacja jest bardziej różnorodna
   // niż długi blok samych zdjęć albo samego tekstu.
   const slides: Slide[] = [];
   const rounds = Math.max(photoSlides.length, infoSlides.length);
@@ -84,7 +85,7 @@ function buildSlides(config: AppConfig, now: Date, adminBase: string): Slide[] {
       key: 'placeholder',
       node: (
         <TileFrame label={config.school.shortName}>
-          <div className="text-hero font-bold">{config.school.name}</div>
+          <GGHeading className="text-hero">{config.school.name}</GGHeading>
         </TileFrame>
       ),
     });
@@ -92,7 +93,7 @@ function buildSlides(config: AppConfig, now: Date, adminBase: string): Slide[] {
   return slides;
 }
 
-/** Pełnoekranowa rotacja kafli (jak InstaStory) z animowanym paskiem postępu. */
+/** Pełnoekranowa rotacja kafli (jak InstaStory) z segmentowym paskiem postępu. */
 export function StoryRotator({ config, now, adminBase, intervalSeconds }: Props) {
   const dayKey = now.toDateString();
   // Struktura slajdów odświeża się raz na dobę / przy zmianie configu (nie co 1s).
@@ -119,21 +120,21 @@ export function StoryRotator({ config, now, adminBase, intervalSeconds }: Props)
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* Delikatny scrim u góry — segmenty postępu czytelne także na zdjęciach. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[9vh] bg-gradient-to-b from-black/55 to-transparent" />
+      {/* Delikatny scrim u góry - segmenty postępu czytelne także na zdjęciach. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[10vh] bg-gradient-to-b from-black/55 to-transparent" />
 
-      {/* Pasek postępu (segmenty jak w InstaStory) */}
-      <div className="absolute inset-x-[2.5vw] top-[2.2vh] z-10 flex gap-2">
+      {/* Pasek postępu (segmenty jak w InstaStory) - twarde, obramowane klocki */}
+      <div className="absolute inset-x-[2.5vw] top-[2.4vh] z-10 flex gap-[0.6vw]">
         {slides.map((s, i) => (
           <div
             key={s.key}
-            className="relative h-2 flex-1 overflow-hidden rounded-full bg-white/25 shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
+            className="relative h-[1.4vh] flex-1 overflow-hidden border-[length:var(--gg-bw-thin)] border-gg-edge bg-white/35 shadow-[0.3vh_0.3vh_0_rgba(0,0,0,0.45)]"
           >
-            {i < index && <div className="absolute inset-0 bg-white" />}
+            {i < index && <div className="absolute inset-0 bg-gg-yellow" />}
             {i === index && (
               <motion.div
                 key={`fill-${index}-${s.key}`}
-                className="absolute inset-y-0 left-0 bg-white"
+                className="absolute inset-y-0 left-0 bg-gg-yellow"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: intervalMs / 1000, ease: 'linear' }}
@@ -156,7 +157,7 @@ export function StoryRotator({ config, now, adminBase, intervalSeconds }: Props)
             label={current.key}
             fallback={
               <TileFrame label="">
-                <div className="muted text-4xl">Nie udało się wczytać kafla</div>
+                <div className="muted font-ui text-big">Nie udało się wczytać kafla</div>
               </TileFrame>
             }
           >

@@ -6,15 +6,51 @@ feed / story* + stały dashboard lekcyjny. Wszystkie teksty po polsku.
 
 Projektowana do odczytu **z 5–10 m**: jedna najważniejsza informacja jest
 największym elementem ekranu (gigantyczny timer do końca lekcji), wysoki
-kontrast, ciemne tło, a **kolor oznacza status**, nie dekorację:
+kontrast, a **kolor oznacza status**, nie dekorację:
 
 | Kolor | Status |
 |------|--------|
-| 🟢 zielony | lekcja trwa |
-| 🟠 bursztyn | przerwa zwykła |
+| 🟢 limonka | lekcja trwa |
+| 🟡 żółty | przerwa zwykła |
 | 🟣 fiolet | długa przerwa |
-| 🔴 czerwony | alarm / pilne ogłoszenie |
-| 🔵 niebieski | dzień wolny / weekend / święto |
+| 🩷 róż | alarm / pilne ogłoszenie |
+| 🔵 cyjan | dzień wolny / weekend / święto |
+| 🟠 pomarańcz | po lekcjach |
+
+## Wygląd (design system GórkaGuesser)
+
+Ekran używa tego samego design systemu co gra
+[GórkaGuesser](https://github.com/ReimaginedPixel/gorkaguesser-recoded):
+**Y2K × graffiti × wlepki**. Ciemna ściana w kratkę jako baza, plamy sprayu
+w kolorze statusu i naklejki die-cut na wierzchu. Zero zaokrąglonych
+"AI-kafelków": ostre kanty, czarna obwódka, kremowe halo, twardy przesunięty
+cień, wszystko o stopień-dwa przekrzywione. Obwódki i cienie są w `vh`, więc
+skalują się z monitorem.
+
+Oba schematy kolorów są pełnoprawne (ciemny domyślnie, jasny po `.light` na
+`<html>`, przełączany automatycznie wg godziny). Akcenty są **identyczne** w obu
+schematach, zmienia się tylko rampa powierzchni i tuszu.
+
+| Co | Gdzie |
+|----|-------|
+| Tokeny obu schematów, fonty, klasy `gg-*` | `src/index.css` |
+| Manifest grafik (jedyny plik ze ścieżkami do `public/gg`) | `src/gg/assets.ts` |
+| Prymitywy: `GGSurface`, `GGPanel`, `GGChip`, `GGTape`, `GGSticker`, `GGIcon`, `GGHeading`, `GGNum`, `GGMeta`, `GGStat` | `src/gg/index.tsx` |
+| Kolor, plama sprayu, maskotka i wlepki per status | `src/statusTheme.ts` |
+| Grafiki, ikony i fonty (podzbiór z GórkaGuesser, ok. 16 MB) | `public/gg/` |
+
+Fonty marki (`public/gg/fonts`): **Zupiter** (nagłówki), **Palamecia Titling**
+(każda liczba: timer, zegar, liczniki), **Pakenham** (etykiety i tekst).
+Zupiter jest na licencji CC0. Palamecia i Pakenham to kroje Typodermic
+z licencją desktopową dołączoną w repo GórkaGuesser; przed publicznym
+wdrożeniem upewnij się, że licencja obejmuje osadzenie w aplikacji. Wszystkie
+trzy pokrywają polskie znaki.
+
+Ikony liniowe (`public/gg/icons`) są rysowane czarnym tuszem; na ciemnej
+ścianie klasa `.gg-inkart` odwraca je na biało (`GGIcon ink="auto"`).
+
+Nowa grafika = plik w `public/gg/assets` + jedna linia w `GG_ART`. Ścieżki są
+względne (bez wiodącego `/`), żeby działały w wersji spakowanej (`file://`).
 
 ## Stack
 
@@ -181,6 +217,8 @@ npm run typecheck        # TypeScript (node + web)
 /electron      main.ts (kiosk) · preload.ts · server.ts (Express admin) · adminPage.ts
 /src           App.tsx · /views (Lesson/Break/LongBreak/Welcome/AfterSchool/DayOff)
                /feed (StoryRotator + kafle) · /components · /hooks · /util
+               /gg (design system GórkaGuesser: manifest grafik + prymitywy)
+/public/gg     grafiki, ikony i fonty design systemu (podzbiór z GórkaGuesser)
 /lib           schedule.ts (+testy) · weather.ts · config.ts · format.ts · types.ts
 /scripts       hash-password.mjs
 config.example.json · .env.example · .gitignore

@@ -2,7 +2,7 @@
   "_comment": "Gazetka Górka — PRZYKŁADOWA konfiguracja. Skopiuj do config.json (w userData lub obok aplikacji). Realny config.json jest w .gitignore. Wszystkie dane poniżej są przykładowe.",
   "_commentSchedule": "Plan dzwonków edytuje się w panelu admina. Klucze 1..7 = dzień tygodnia (1=poniedziałek ... 7=niedziela). Każda lekcja: {nr, start 'HH:MM', koniec 'HH:MM'}. Przerwy liczone z luk między lekcjami. L9 (14:55-15:40) domyślnie wyłączona.",
   "school": {
-    "name": "Technikum — Górka, Rabka-Zdrój",
+    "name": "Technikum Górka, Rabka-Zdrój",
     "shortName": "Gazetka Górka"
   },
   "location": {
@@ -98,7 +98,7 @@
   },
   "facts": [
     "Rabka-Zdrój leży na wysokości ok. 500 m n.p.m. w Beskidzie Wyspowym i Gorcach.",
-    "Inter to krój pisma zaprojektowany specjalnie z myślą o czytelności na ekranach."
+    "Turbacz (1310 m n.p.m.) to najwyższy szczyt Gorców, widoczny z wielu miejsc w Rabce."
   ],
   "anagrams": [
     { "answer": "RABKA", "hint": "Nasze uzdrowiskowe miasto" },

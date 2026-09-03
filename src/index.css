@@ -2,6 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════════════════════════
+   GAZETKA GÓRKA - design system przeniesiony z GórkaGuesser
+   Y2K × graffiti × wlepki. Ciemna ściana z siatką jako baza, spray i naklejki
+   na wierzchu. Zero okrągłych „AI-kafelków”: ostre kanty, czarna obwódka,
+   kremowe halo, twardy przesunięty cień, wszystko o stopień-dwa przekrzywione.
+
+   Skala jest KIOSKOWA (odczyt z 5–10 m): obwódki i cienie w vh, nie px.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fonty marki (public/gg/fonts) ───────────────────────────────────────── */
+@font-face {
+  font-family: 'Zupiter';
+  src: url('/gg/fonts/Zupiter.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Palamecia';
+  src: url('/gg/fonts/PalameciaTitling.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pakenham';
+  src: url('/gg/fonts/PakenhamRg.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Tokeny: ciemno domyślnie (kiosk), .light na <html> = schemat jasny ──── */
+:root {
+  --gg-body: #0f0a17;
+  --gg-paper: #150f21;
+  --gg-card: #241b33;
+  --gg-deep: #0b0713;
+  --gg-track: #352849;
+
+  --gg-ink: #f5edff;
+  --gg-muted: #c2b2d8;
+  --gg-meta: #9587ae;
+  --gg-rule: #5e4f7c;
+
+  --gg-edge: #141118;
+  --gg-halo: #f3ecde;
+  --gg-sketch: #9587ae;
+  --gg-shadow: rgb(0 0 0 / 0.55);
+  --gg-grid: rgb(178 140 255 / 0.07);
+  --gg-numshadow: #7b2ff2;
+  --gg-inkart: invert(1);
+  --gg-graph:
+    linear-gradient(rgb(21 13 34 / 0.82), rgb(21 13 34 / 0.82)),
+    url('/gg/assets/graph-bg.jpg') center / cover,
+    #241b33;
+
+  /* Akcenty - identyczne w obu schematach. */
+  --gg-pink: #ff3d9a;
+  --gg-pink-deep: #9c0055;
+  --gg-yellow: #ffd02e;
+  --gg-purple: #7b2ff2;
+  --gg-lime: #8fd41f;
+  --gg-lime-ink: #2f4a08;
+  --gg-cyan: #22c9e0;
+  --gg-orange: #ff6b1a;
+
+  /* Skala kioskowa: obwódka, halo i przesunięty cień. */
+  --gg-bw: 0.45vh;
+  --gg-bw-thin: 0.3vh;
+  --gg-off: 0.9vh;
+  --gg-off-sm: 0.5vh;
+}
+
+.light {
+  --gg-body: #f4efe3;
+  --gg-paper: #f6f2e7;
+  --gg-card: #fdfbf6;
+  --gg-deep: #141118;
+  --gg-track: #efe9dc;
+
+  --gg-ink: #141118;
+  --gg-muted: #5c5448;
+  --gg-meta: #8a7f6e;
+  --gg-rule: #b7ab98;
+
+  --gg-edge: #141118;
+  --gg-halo: #ffffff;
+  --gg-sketch: #141118;
+  --gg-shadow: rgb(20 17 24 / 0.2);
+  --gg-grid: rgb(46 91 255 / 0.06);
+  --gg-numshadow: #ffd02e;
+  --gg-inkart: none;
+  --gg-graph: url('/gg/assets/graph-bg.jpg') center / cover, #fdfbf6;
+}
+
+/* ── Baza ────────────────────────────────────────────────────────────────── */
 html,
 body,
 #root {
@@ -13,20 +110,35 @@ body {
   overflow: hidden;
   cursor: none; /* monitor bez myszki/klawiatury */
   color-scheme: dark;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  color: var(--gg-ink);
+  font-family: 'Pakenham', system-ui, 'Segoe UI', sans-serif;
+  /* Papier w kratkę: ściana, do której wszystko jest przyklejone. */
+  background-color: var(--gg-paper);
+  background-image:
+    linear-gradient(var(--gg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gg-grid) 1px, transparent 1px);
+  background-size: 3.2vh 3.2vh;
+}
+.light body {
+  color-scheme: light;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* Liczby nie skaczą — wymóg dla timera. */
+::selection {
+  background: var(--gg-yellow);
+  color: #141118;
+}
+
+/* Liczby nie skaczą - wymóg dla timera. */
 .tnum {
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum';
 }
 
-/* Tekst na zdjęciach — czytelny niezależnie od tła. */
+/* Tekst na zdjęciach - czytelny niezależnie od tła. */
 .photo-shadow {
   text-shadow:
     0 2px 18px rgba(0, 0, 0, 0.85),
@@ -34,65 +146,157 @@ body {
 }
 
 @layer components {
-  /* Semantyczne powierzchnie — reagują na tryb jasny (.light na <html>). */
-  .surface {
-    @apply bg-ink text-white;
-  }
-  .light .surface {
-    @apply bg-neutral-100 text-neutral-900;
-  }
-  .panel {
-    @apply rounded-3xl border border-white/10 bg-ink-card;
-  }
-  .light .panel {
-    @apply border-black/10 bg-white shadow-sm;
-  }
   .muted {
-    @apply text-white/70;
+    color: var(--gg-muted);
   }
-  .light .muted {
-    @apply text-neutral-600;
-  }
-  /* Wyróżnienie wewnątrz przygaszonego tekstu — pełny kontrast w obu trybach. */
   .strong {
-    @apply font-semibold text-white;
+    font-weight: 700;
+    color: var(--gg-ink);
   }
-  .light .strong {
-    @apply text-neutral-900;
+
+  /* ── Przepis na komponent ──────────────────────────────────────────────
+     Czarna obwódka + kremowe halo + twardy przesunięty cień. Każdy panel,
+     karta i kafel statystyki w tym designie to wariacja tej jednej reguły. */
+  .gg-surface {
+    border: var(--gg-bw) solid var(--gg-edge);
+    border-radius: 0.5vh;
+    background: var(--gg-card);
+    box-shadow:
+      0 0 0 var(--gg-bw) var(--gg-halo),
+      var(--gg-off) calc(var(--gg-off) * 1.15) 0 var(--gg-shadow);
   }
-  /* Półprzezroczysta karta "szkło" — wyróżnia kluczowe informacje. */
-  .glass {
-    @apply rounded-[2rem] border border-white/10 bg-white/[0.06] backdrop-blur-md;
+  .gg-surface-flat {
+    border: var(--gg-bw-thin) solid var(--gg-edge);
+    border-radius: 0.4vh;
+    background: var(--gg-card);
+    box-shadow: var(--gg-off-sm) var(--gg-off-sm) 0 var(--gg-shadow);
   }
-  .light .glass {
-    @apply border-black/10 bg-white/75 shadow-sm;
+  .gg-surface-deep {
+    border: var(--gg-bw) solid var(--gg-edge);
+    border-radius: 0.5vh;
+    background: var(--gg-deep);
+    color: #fff;
+    box-shadow:
+      0 0 0 var(--gg-bw) var(--gg-halo),
+      var(--gg-off) calc(var(--gg-off) * 1.15) 0 var(--gg-shadow);
   }
-  /* Rama feedu (story) — wyraźnie oddziela feed od nagłówka widoku. */
-  .feed-card {
-    @apply overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)];
+  /* Ciemna belka tytułowa przykręcona do góry panelu. */
+  .gg-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1vw;
+    padding: 0.9vh 2vw;
+    background: var(--gg-deep);
+    border-bottom: var(--gg-bw) solid var(--gg-edge);
+    color: #fff;
   }
-  .light .feed-card {
-    @apply border-black/10 bg-white/70 shadow-lg;
+  /* Kontener „naszkicowany” - przerywana obwódka na kartce w kratkę. */
+  .gg-sketch {
+    border: var(--gg-bw) dashed var(--gg-sketch);
+    border-radius: 0.4vh;
+    background: var(--gg-card);
   }
-  /* Etykieta-pigułka (nagłówki kafli, sekcji). */
-  .label-pill {
-    @apply rounded-full border border-white/15 bg-white/[0.07] px-6 py-2 text-2xl font-bold uppercase tracking-[0.25em] text-white/80;
+  /* Zeskanowana kartka w kratkę pod panelami. */
+  .gg-graph {
+    background: var(--gg-graph);
   }
-  .light .label-pill {
-    @apply border-black/10 bg-black/5 text-neutral-600;
+  /* Mikro-etykieta: mono, wersaliki, szeroki tracking - pod każdą statystyką. */
+  .gg-meta {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 1.7vh;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gg-meta);
   }
-  /* Dolny pasek statusu. */
-  .statusbar {
-    @apply border-t border-white/10 bg-black/35 backdrop-blur-md;
+  /* Oderwany pasek taśmy malarskiej przyklejony w rogu. */
+  .gg-tape {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8vw;
+    border: var(--gg-bw-thin) solid var(--gg-edge);
+    padding: 0.5vh 1.4vw;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 1.7vh;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    background: var(--gg-halo);
+    color: #141118;
+    box-shadow: var(--gg-off-sm) var(--gg-off-sm) 0 var(--gg-shadow);
+    transform: rotate(-2deg);
   }
-  .light .statusbar {
-    @apply border-black/10 bg-white/80;
+  /* Przerywana linijka taśmy biegnąca w prawo od nagłówka sekcji. */
+  .gg-rule {
+    height: 0.5vh;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--gg-sketch) 0 2vh,
+      transparent 2vh 3.2vh
+    );
   }
-  /* Pionowy separator statystyk w pasku. */
-  .vdiv {
-    @apply w-px self-stretch bg-white/15;
+  /* Wpuszczony tor pod każdym paskiem postępu. */
+  .gg-track {
+    position: relative;
+    overflow: hidden;
+    border: var(--gg-bw-thin) solid var(--gg-edge);
+    border-radius: 1.2vh;
+    background: var(--gg-track);
+    box-shadow:
+      inset 0.3vh 0.4vh 0.7vh rgb(0 0 0 / 0.35),
+      var(--gg-off-sm) var(--gg-off-sm) 0 var(--gg-shadow);
   }
-  .light .vdiv {
-    @apply bg-black/15;
+  /* Ukośne cukierkowe wypełnienie - paruje z .gg-track. Kolory z --fill-a/--fill-b. */
+  .gg-track-fill {
+    position: absolute;
+    inset: 0.35vh auto 0.35vh 0.35vh;
+    border-radius: 0.9vh;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--fill-a, var(--gg-pink)) 0 1.6vh,
+      var(--fill-b, var(--gg-orange)) 1.6vh 3.2vh
+    );
+    box-shadow: inset 0 0.3vh 0.4vh rgb(255 255 255 / 0.4);
+  }
+  /* Rastrowa siateczka nakładana na każdą powierzchnię fotograficzną. */
+  .gg-dots {
+    background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1.6px);
+    background-size: 1.8vh 1.8vh;
+  }
+  /* Ikony liniowe są rysowane czarnym tuszem - na ciemnej ścianie odwracamy. */
+  .gg-inkart {
+    filter: var(--gg-inkart);
+  }
+  .gg-inkart-light {
+    filter: invert(1);
+  }
+  /* Pieczątka: przekrzywiona, twarda obwódka, lekko prześwitujący tusz. */
+  .gg-stamp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--gg-bw) solid currentColor;
+    border-radius: 0.6vh;
+    padding: 0.6vh 1.6vw;
+    font-family: 'Zupiter', 'Pakenham', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.92;
+    transform: rotate(-6deg);
+  }
+  /* Twardy cień pod naklejką (die-cut). */
+  .gg-sticker-shadow {
+    filter: drop-shadow(0.6vh 0.8vh 0 rgb(0 0 0 / 0.32));
+  }
+  /* Twardy cień pod dużym napisem (nagłówki Zupiter). */
+  .gg-text-shadow {
+    text-shadow: 0.45vh 0.45vh 0 var(--gg-numshadow);
+  }
+  /* Twardy cień „obwódkowy” pod olbrzymią liczbą (timer, zegar). */
+  .gg-num-shadow {
+    text-shadow:
+      0.35vh 0.35vh 0 var(--gg-edge),
+      1.1vh 1.1vh 0 var(--gg-halo);
   }
 }
