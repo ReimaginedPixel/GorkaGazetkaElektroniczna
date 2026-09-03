@@ -1,13 +1,13 @@
 /**
- * Wbudowane zdjęcia okolic Górki (Rabka-Zdrój, Gorce) — pokazywane zawsze,
+ * Wbudowane zdjęcia okolic Górki (Rabka-Zdrój, Gorce) - pokazywane zawsze,
  * obok zdjęć wgranych w panelu admina. Pliki w /public/photos.
  *
- * Wszystkie na wolnych licencjach z Wikimedia Commons — atrybucja (wymagana
+ * Wszystkie na wolnych licencjach z Wikimedia Commons - atrybucja (wymagana
  * licencją CC BY / CC BY-SA) jest wyświetlana na kaflu i zapisana
  * w public/photos/CREDITS.json.
  */
 export interface GorkaPhoto {
-  /** Ścieżka WZGLĘDNA (bez wiodącego "/") — działa i w dev, i w wersji spakowanej (file://). */
+  /** Ścieżka WZGLĘDNA (bez wiodącego "/") - działa i w dev, i w wersji spakowanej (file://). */
   src: string;
   caption: string;
   credit: string;
@@ -16,7 +16,7 @@ export interface GorkaPhoto {
 export const GORKA_PHOTOS: GorkaPhoto[] = [
   {
     src: 'photos/panorama-rabki.jpg',
-    caption: 'Rabka-Zdrój — nasze miasto',
+    caption: 'Rabka-Zdrój, nasze miasto',
     credit: 'fot. Mach240390 · Wikimedia Commons · CC BY-SA 3.0',
   },
   {
@@ -41,7 +41,7 @@ export const GORKA_PHOTOS: GorkaPhoto[] = [
   },
   {
     src: 'photos/turbacz-zima.jpg',
-    caption: 'Gorce zimą — Hala Turbacz',
+    caption: 'Gorce zimą: Hala Turbacz',
     credit: 'fot. Jakub Hałun · Wikimedia Commons · CC BY-SA 4.0',
   },
 ];

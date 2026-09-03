@@ -1,5 +1,6 @@
 import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
+import { GGHeading, GGSurface } from '../../gg';
 import { TileFrame } from '../TileFrame';
 
 /** Kod QR generowany w locie. Ciemne moduły na białym tle (skanowalność). */
@@ -12,7 +13,7 @@ export function QrTile({ label, url }: { label: string; url: string }) {
       width: 560,
       margin: 1,
       errorCorrectionLevel: 'M',
-      color: { dark: '#0A0A0A', light: '#FFFFFF' },
+      color: { dark: '#141118', light: '#FFFFFF' },
     })
       .then((data) => {
         if (active) setSrc(data);
@@ -24,14 +25,16 @@ export function QrTile({ label, url }: { label: string; url: string }) {
   }, [url]);
 
   return (
-    <TileFrame label="Zeskanuj telefonem">
-      <div className="flex flex-col items-center gap-[3vh]">
-        {src ? (
-          <img src={src} alt={label} className="h-[42vh] w-[42vh] rounded-3xl bg-white p-4" />
-        ) : (
-          <div className="h-[42vh] w-[42vh] animate-pulse rounded-3xl bg-white/10" />
-        )}
-        <div className="text-hero font-bold">{label}</div>
+    <TileFrame label="Zeskanuj telefonem" icon={['ui', 'play']} tone="cyan">
+      <div className="flex items-center gap-[4vw]">
+        <GGSurface tilt="l2" className="!bg-white p-[1.2vh]">
+          {src ? (
+            <img src={src} alt={label} className="block h-[28vh] w-[28vh]" />
+          ) : (
+            <div className="h-[28vh] w-[28vh] animate-pulse bg-gg-track" />
+          )}
+        </GGSurface>
+        <GGHeading className="max-w-[40vw] text-left text-h2">{label}</GGHeading>
       </div>
     </TileFrame>
   );

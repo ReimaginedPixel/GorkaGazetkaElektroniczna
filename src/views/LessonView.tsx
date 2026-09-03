@@ -1,40 +1,49 @@
 import { formatCountdown } from '@lib/format';
+import { GGHeading, GGIcon, GGMeta, GGNum, GGSurface } from '../gg';
 import { Screen } from '../components/Screen';
 import { ProgressBar } from '../components/ProgressBar';
 import type { ViewProps } from './types';
 
-/** Stan 1: LEKCJA TRWA — gigantyczny timer do końca lekcji. */
+/** Stan 1: LEKCJA TRWA - gigantyczny timer do końca lekcji. */
 export function LessonView({ state, theme, config }: ViewProps) {
   const cur = state.current;
   if (!cur) return null;
   const title = cur.name ?? `Lekcja ${cur.nr}`;
 
   return (
-    <Screen theme={theme} chip={`Lekcja ${cur.nr}`} brand={config.school.shortName}>
+    <Screen
+      theme={theme}
+      chip={`Lekcja ${cur.nr}`}
+      sub={`${cur.start} – ${cur.koniec}`}
+      brand={config.school.shortName}
+      stickers="hero"
+    >
       <div className="flex flex-col items-center text-center">
-        <div className="text-hero font-black tracking-tight">{title}</div>
-        <div className="glass tnum mt-[1.5vh] rounded-full px-8 py-2 text-3xl font-semibold">
-          {cur.start} – {cur.koniec}
-        </div>
+        <GGHeading className="flex items-center gap-[1.4vw] text-hero">
+          <GGIcon group="object" name="book" className="w-[7vh] -rotate-6" />
+          {title}
+        </GGHeading>
 
-        <div
-          className="tnum mt-[2.5vh] text-timer font-black leading-none"
-          style={{ color: theme.accent, textShadow: `0 0 90px ${theme.glow}` }}
+        <GGNum
+          className="mt-[2vh] block text-timer"
+          style={{ color: theme.accent, textShadow: `0.9vh 0.9vh 0 ${theme.shadow}` }}
         >
           {formatCountdown(state.msUntilEnd ?? 0)}
-        </div>
-        <div className="muted mt-2 text-3xl font-semibold uppercase tracking-[0.3em]">
-          do końca lekcji
-        </div>
+        </GGNum>
+        <GGMeta className="mt-[1vh] text-[2.4vh]">do końca lekcji</GGMeta>
 
-        <ProgressBar value={state.progress} accent={theme.accent} />
+        <ProgressBar value={state.progress} accent={theme.accent} shadow={theme.shadow} />
 
         {state.next && (
-          <div className="glass mt-[4vh] flex items-center gap-4 rounded-full px-9 py-3 text-3xl">
-            <span className="muted">Następnie:</span>
-            <span className="font-bold">{state.next.name ?? `Lekcja ${state.next.nr}`}</span>
-            <span className="tnum muted">· {state.next.start}</span>
-          </div>
+          <GGSurface variant="flat" tilt="l" className="mt-[4.5vh] flex items-center gap-[1.2vw] px-[2.2vw] py-[1.2vh]">
+            <span className="border-r-[length:var(--gg-bw-thin)] border-dashed border-gg-rule pr-[1.2vw] font-mono text-chip font-bold uppercase text-gg-meta">
+              Następnie
+            </span>
+            <span className="font-display text-big uppercase text-gg-ink">
+              {state.next.name ?? `Lekcja ${state.next.nr}`}
+            </span>
+            <GGNum className="text-big text-gg-muted">· {state.next.start}</GGNum>
+          </GGSurface>
         )}
       </div>
     </Screen>
